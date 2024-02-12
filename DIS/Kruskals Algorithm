@@ -1,0 +1,33 @@
+ribs = [(15, 1, 2), (14, 1, 5), (23, 1, 4), (19, 2, 3), (16, 2, 4), (15, 2, 5), (14, 3, 5), (26, 3, 6),
+        (25, 4, 5), (23, 4, 7), (20, 4, 8), (24, 5, 6), (27, 5, 8), (18, 5, 9), (14, 7, 8), (18, 8, 9)]
+ribsSorted = sorted(ribs, key=lambda rib: rib[0])
+connectedVertices = set()
+dictionary = {}
+ostov = []
+
+for rib in ribsSorted:
+    if rib[1] not in connectedVertices or rib[2] not in connectedVertices:
+        if rib[1] not in connectedVertices and rib[2] not in connectedVertices:
+            dictionary[rib[1]] = set([rib[1], rib[2]])
+            dictionary[rib[2]] = dictionary[rib[1]]
+        else:
+            if not dictionary.get(rib[1]):
+                dictionary[rib[2]].add(rib[1])
+                dictionary[rib[1]] = dictionary[rib[2]]
+            else:
+                dictionary[rib[1]].add(rib[2])
+                dictionary[rib[2]] = dictionary[rib[1]]
+        ostov.append(rib)
+        connectedVertices.add(rib[1])
+        connectedVertices.add(rib[2])
+
+for rib in ribsSorted:
+    if rib[2] not in dictionary[rib[1]]:
+        ostov.append(rib)
+        temp = dictionary[rib[1]]
+        dictionary[rib[1]] = dictionary[rib[1]].union(dictionary[rib[2]])
+        dictionary[rib[2]] = dictionary[rib[2]].union(temp)
+        for vertice in dictionary[rib[1]]:
+            dictionary[vertice] = dictionary[rib[1]]
+
+print(ostov)
