@@ -1,0 +1,183 @@
+interface IDatabase
+{
+    void CreateDatabase();
+    void AddToDatabase();
+    void UpdateByAuditoriumNumber();
+    void QueryByCapacity(int capacity);
+    void QueryByPCAndProjectorAvailability();
+    void QueryByFloor(int floor);
+    void Exit();
+}
+
+class Menu : IDatabase
+{
+    private List<Auditorium> auditoriums;
+
+    public Menu()
+    {
+        auditoriums = new List<Auditorium>();
+    }
+
+    public void CreateDatabase()
+    {
+        auditoriums.Clear();
+        Console.WriteLine("База данных создана");
+    }
+
+    public void AddToDatabase()
+    {
+        Console.WriteLine("Введите описание аудитории: ");
+        Console.Write("Номер аудитории: ");
+        int number = int.Parse(Console.ReadLine());
+
+        Console.Write("Вместительность: ");
+        int capacity = int.Parse(Console.ReadLine());
+
+        Console.Write("Комп с проектором есть, а? (true/false): ");
+        bool hasPCAndProjector = bool.Parse(Console.ReadLine());
+
+        Auditorium auditorium = new Auditorium(number, capacity, hasPCAndProjector);
+        auditoriums.Add(auditorium);
+
+        Console.WriteLine("Аудитория добавлена в базу данных");
+    }
+
+    public void UpdateByAuditoriumNumber()
+    {
+        Console.Write("Введите номер аудитории для обновления: ");
+        int number = int.Parse(Console.ReadLine());
+
+        Auditorium auditorium = auditoriums.Find(a => a.Number == number);
+        if (auditorium != null)
+        {
+            Console.Write("Введите новую вместительность: ");
+            int newCapacity = int.Parse(Console.ReadLine());
+            auditorium.Capacity = newCapacity;
+            Console.Write("А теперь комп с проектором есть, а? (true/false): ");
+            bool hasPCAndProjector = bool.Parse(Console.ReadLine());
+            auditorium.HasPCAndProjector = hasPCAndProjector;
+
+            Console.WriteLine("Аудитория обновлена");
+        }
+        else
+        {
+            Console.WriteLine("Аудитория не найдена....");
+        }
+    }
+
+    public void QueryByCapacity(int capacity)
+    {
+        List<Auditorium> result = auditoriums.FindAll(a => a.Capacity >= capacity);
+        Console.WriteLine("Аудитории с вместительностью {0}:", capacity);
+        foreach (Auditorium auditorium in result)
+        {
+            Console.WriteLine(auditorium);
+        }
+    }
+
+    public void QueryByPCAndProjectorAvailability()
+    {
+        List<Auditorium> result = auditoriums.FindAll(a => a.HasPCAndProjector);
+        Console.WriteLine("Аудитории с ПК и проектором:");
+        foreach (Auditorium auditorium in result)
+        {
+            Console.WriteLine(auditorium);
+        }
+    }
+
+    public void QueryByFloor(int floor)
+    {
+        List<Auditorium> result = auditoriums.FindAll(a => a.Floor == floor);
+        Console.WriteLine("Аудитории на этаже {0}:", floor);
+        foreach (Auditorium auditorium in result)
+        {
+            Console.WriteLine(auditorium);
+        }
+    }
+
+    public void Exit()
+    {
+        Environment.Exit(0);
+    }
+}
+
+class Auditorium
+{
+    public int Number { get; set; }
+    public int Capacity { get; set; }
+    public bool HasPCAndProjector { get; set; }
+
+    public int Floor
+    {
+        get { return Number / 100; }
+    }
+
+    public Auditorium(int number, int capacity, bool hasPCAndProjector)
+    {
+        Number = number;
+        Capacity = capacity;
+        HasPCAndProjector = hasPCAndProjector;
+    }
+
+    public override string ToString()
+    {
+        return string.Format($"Аудитория {Number} - Вместительность: {Capacity}, ПК и проектор: {HasPCAndProjector}");
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Console.ForegroundColor = ConsoleColor.Green;
+        Menu menu = new Menu();
+        while (true)
+        {
+            Console.WriteLine("Менюшка:");
+            Console.WriteLine("1. Создание базы данных");
+            Console.WriteLine("2. Добавление в базу данных");
+            Console.WriteLine("3. Обновление по номеру аудитории");
+            Console.WriteLine("4. Выборка по вместительности");
+            Console.WriteLine("5. Выборка по наличию ПК и проетора");
+            Console.WriteLine("6. Выборка по этажу");
+            Console.WriteLine("7. Выход!");
+
+            Console.Write("Введите цифру вашего выбора: ");
+            int choice = int.Parse(Console.ReadLine());
+
+            switch (choice)
+            {
+                case 1:
+                    menu.CreateDatabase();
+                    break;
+                case 2:
+                    menu.AddToDatabase();
+                    break;
+                case 3:
+                    menu.UpdateByAuditoriumNumber();
+                    break;
+                case 4:
+                    Console.Write("Введите вместительность: ");
+                    int capacity = int.Parse(Console.ReadLine());
+                    menu.QueryByCapacity(capacity);
+                    break;
+                case 5:
+                    menu.QueryByPCAndProjectorAvailability();
+                    break;
+                case 6:
+                    Console.Write("Введите этаж: ");
+                    int floor = int.Parse(Console.ReadLine());
+                    menu.QueryByFloor(floor);
+                    break;
+                case 7:
+                    menu.Exit();
+                    break;
+                default:
+                    Console.WriteLine("Неверный ввод....");
+                    break;
+            }
+
+            Console.WriteLine();
+        }
+    }
+}
