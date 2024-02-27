@@ -1,0 +1,230 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Xml.Linq;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        while (true)
+        {
+            Console.WriteLine("Choose the function for Array List:");
+            Console.WriteLine("1. Count");
+            Console.WriteLine("2. BinSearch");
+            Console.WriteLine("3. CopyTo");
+            Console.WriteLine("4. IndexOf");
+            Console.WriteLine("5. Insert");
+            Console.WriteLine("6. Reverse");
+            Console.WriteLine("7. Sort");
+            Console.WriteLine("8. Add");
+            Console.WriteLine("0. Exit");
+            string choice = Console.ReadLine();
+            switch (choice)
+            {
+                case "1":
+                    ArrayListCount();
+                    break;
+                case "2":
+                    ArrayListBinSearch();
+                    break;
+                case "3":
+                    ArrayListCopyTo();
+                    break;
+                case "4":
+                    ArrayListIndexOf();
+                    break;
+                case "5":
+                    ArrayListInsert();
+                    break;
+                case "6":
+                    ArrayListReverse();
+                    break;
+                case "7":
+                    ArrayListSort();
+                    break;
+                case "8":
+                    ArrayListAdd();
+                    break;
+                case "9":
+                    
+                    break;
+                case "0":
+                    return;
+                default:
+                    Console.WriteLine("Invalid input. Try again...");
+                    break;
+            }
+        }
+    }
+    private static void ArrayListCount()
+    {
+        Console.WriteLine("Enter array elements separated by spaces: ");
+        string[] elements = Console.ReadLine().Split(' ');
+
+        int count = elements.Count();
+        Console.WriteLine($"Elements count: {count}");
+    }
+    private static void ArrayListBinSearch()
+    {
+        Console.WriteLine("Enter array elements separated by spaces: ");
+        string[] elements = Console.ReadLine().Split(' ');
+
+        ArrayList arrayList = new ArrayList();
+
+        foreach (string elem in elements) 
+        {
+            arrayList.Add(elem);
+        }
+
+        arrayList.Sort();
+
+        Console.WriteLine("Enter element: ");
+        string element = Console.ReadLine();
+        Array.Sort(elements);
+        int index = arrayList.BinarySearch(element);
+
+        if (index < 0)
+        {
+            Console.WriteLine("Element not found");
+        }
+        else
+        {
+            Console.WriteLine($"Element index: {index}");
+        }
+    }
+    private static void ArrayListCopyTo()
+    {
+        Console.WriteLine("Enter source array elements separated by spaces: ");
+        string[] sourceElements = Console.ReadLine().Split(' ');
+        ArrayList arrayList = new ArrayList();
+
+        foreach (string elem in sourceElements)
+        {
+            arrayList.Add(elem);
+        }
+
+        Console.WriteLine("Enter destination array elements separated by spaces: ");
+        string[] destinationElements = Console.ReadLine().Split(' ');
+
+        arrayList.CopyTo(destinationElements);
+        Console.WriteLine("Copied array: ");
+        foreach (string element in destinationElements)
+        {
+            Console.WriteLine(element);
+        }
+    }
+    private static void ArrayListInsert()
+    {
+        Console.WriteLine("Enter array elements (numbers) separated by spaces: ");
+        string[] elements = Console.ReadLine().Split(' ');
+        ArrayList arrayList = new ArrayList();
+
+        foreach (string elem in elements)
+        {
+            arrayList.Add(elem);
+        }
+
+        Console.WriteLine("Enter index: ");
+        int index = Convert.ToInt32(Console.ReadLine());
+
+        Console.WriteLine("Enter element to insert: ");
+        string element = Console.ReadLine();
+
+        arrayList.Insert(index, element);
+
+        string output = "";
+        foreach (string elem in arrayList)
+        {
+            output += elem + " ";
+        }
+        Console.WriteLine("New array list: " + output);
+    }
+    private static void ArrayListIndexOf()
+    {
+        Console.WriteLine("Enter array elements separated by spaces: ");
+        string[] elements = Console.ReadLine().Split(' ');
+        ArrayList arrayList = new ArrayList();
+
+        foreach (string elem in elements)
+        {
+            arrayList.Add(elem);
+        }
+
+        Console.WriteLine("Enter element: ");
+        string element = Console.ReadLine();
+
+
+        int index = arrayList.IndexOf(element);
+        if (index < 0)
+        {
+            Console.WriteLine("Element not found");
+        }
+        else
+        {
+            Console.WriteLine($"Element index: {index}");
+        }
+    }
+    private static void ArrayListReverse()
+    {
+        Console.WriteLine("Enter array elements separated by spaces: ");
+        string[] elements = Console.ReadLine().Split(' ');
+        ArrayList arrayList = new ArrayList();
+
+        foreach (string elem in elements)
+        {
+            arrayList.Add(elem);
+        }
+        arrayList.Reverse();
+        string output = "";
+        foreach (string element in arrayList)
+        {
+            output += element + " ";
+        }
+        Console.WriteLine("Reversed elements: " + output);
+    }
+    private static void ArrayListAdd()
+    {
+        Console.WriteLine("Enter array elements separated by spaces: ");
+        string[] elements = Console.ReadLine().Split(' ');
+        ArrayList arrayList = new ArrayList();
+
+        foreach (string elem in elements)
+        {
+            arrayList.Add(elem);
+        }
+
+        Console.WriteLine("Enter element to add: ");
+        string element = Console.ReadLine();
+
+        arrayList.Add(element);
+
+        string output = "";
+        foreach (string elem in arrayList)
+        {
+            output += elem + " ";
+        }
+
+        Console.WriteLine("New array list: " + output);
+    }
+
+    private static void ArrayListSort()
+    {
+        Console.WriteLine("Enter array elements separated by spaces: ");
+        string[] elements = Console.ReadLine().Split(' ');
+        ArrayList arrayList = new ArrayList();
+
+        foreach (string elem in elements)
+        {
+            arrayList.Add(elem);
+        }
+
+        arrayList.Sort();
+        string output = "";
+        foreach (string element in arrayList)
+        {
+            output += element + " ";
+        }
+        Console.WriteLine("Sorted elements: " + output);
+    }
+}
