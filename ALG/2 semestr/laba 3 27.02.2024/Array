@@ -1,0 +1,174 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+class Program
+{
+    static void Main(string[] args)
+    {
+        while (true)
+        {
+            Console.WriteLine("Choose the function for Array:"); 
+            Console.WriteLine("1. Count");
+            Console.WriteLine("2. BinSearch"); 
+            Console.WriteLine("3. Copy");
+            Console.WriteLine("4. Find"); 
+            Console.WriteLine("5. FindLast");
+            Console.WriteLine("6. IndexOf"); 
+            Console.WriteLine("7. Reverse");
+            Console.WriteLine("8. Resize"); 
+            Console.WriteLine("9. Sort");
+            Console.WriteLine("0. Exit");
+            string choice = Console.ReadLine(); 
+            switch (choice)
+            {
+                case "1":
+                    ArrayCount(); 
+                    break;
+                case "2":
+                    ArrayBinSearch();
+                    break;
+                case "3":
+                    ArrayCopy(); 
+                    break;
+                case "4":
+                    ArrayFind();
+                    break;
+                case "5":
+                    ArrayFindLast(); 
+                    break;
+                case "6":
+                    ArrayIndexOf();
+                    break;
+                case "7":
+                    ArrayReverse(); 
+                    break;
+                case "8":
+                    ArrayResize();
+                    break;
+                case "9":
+                    ArraySort();
+                    break;
+                case "0":
+                    return;
+                default:
+                    Console.WriteLine("Invalid input. Try again..."); 
+                    break;
+            }
+        }
+    }
+    private static void ArrayCount()
+    {
+        Console.WriteLine("Enter array elements separated by spaces: "); 
+        string[] elements = Console.ReadLine().Split(' ');
+        int count = elements.Count();
+        Console.WriteLine($"Elements count: {count}");
+    }
+    private static void ArrayBinSearch()
+    {
+        Console.WriteLine("Enter array elements separated by spaces: "); 
+        string[] elements = Console.ReadLine().Split(' ');
+        Console.WriteLine("Enter element: ");
+        string element = Console.ReadLine();
+        Array.Sort(elements); 
+        int index = Array.BinarySearch(elements, element);
+
+        if (index < 0)
+        {
+            Console.WriteLine("Element not found");
+        }
+        else
+        {
+            Console.WriteLine($"Element index: {index}");
+        }
+    }
+    private static void ArrayCopy()
+    {
+        Console.WriteLine("Enter source array elements separated by spaces: "); 
+        string[] sourceElements = Console.ReadLine().Split(' ');
+
+        Console.WriteLine("Enter destination array elements separated by spaces: ");
+        string[] destinationElements = Console.ReadLine().Split(' ');        
+
+        Console.WriteLine("Enter lenght: "); 
+        long length = int.Parse(Console.ReadLine());
+
+        Array.Copy(sourceElements, destinationElements, length); 
+        Console.WriteLine("Copied array: ");
+        foreach (string element in destinationElements)
+        {
+            Console.WriteLine(element);
+        }
+    }
+    private static void ArrayFind()
+    {
+        Console.WriteLine("Enter array elements (numbers) separated by spaces: ");
+        string[] elements = Console.ReadLine().Split(' ');
+        Console.WriteLine("Enter a");
+        int a = Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine($"Smallest number greater than a : " + Array.Find(elements, i => Convert.ToInt32(i) >= a));
+    }
+    private static void ArrayFindLast()
+    {
+        Console.WriteLine("Enter array elements (numbers) separated by spaces: ");
+        string[] elements = Console.ReadLine().Split(' ');
+        Console.WriteLine("Enter a"); 
+        int a = Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine($"Largest number smaller than a = {a} : " + Array.FindLast(elements, i => Convert.ToInt32(i) <= a));
+    }
+    private static void ArrayIndexOf()
+    {
+        Console.WriteLine("Enter array elements separated by spaces: "); 
+        string[] elements = Console.ReadLine().Split(' ');
+        Console.WriteLine("Enter element: ");
+        string element = Console.ReadLine();
+        int index = Array.IndexOf(elements, element);
+        if (index < 0)
+        {
+            Console.WriteLine("Element not found");
+        }
+        else
+        {
+            Console.WriteLine($"Element index: {index}");
+        }
+    }
+    private static void ArrayReverse()
+    {
+        Console.WriteLine("Enter array elements separated by spaces: ");
+        string[] elements = Console.ReadLine().Split(' '); 
+        Array.Reverse(elements);
+        string output = "";
+        foreach (string element in elements)
+        {
+            output += element + " ";
+        }
+        Console.WriteLine("Reversed elements: " + output);
+    }
+    private static void ArrayResize()
+    {
+        Console.WriteLine("Enter array elements separated by spaces: "); 
+        string[] elements = Console.ReadLine().Split(' ');
+        Console.WriteLine("Enter new size: ");
+        int size = Convert.ToInt32(Console.ReadLine()); 
+        Array.Resize(ref elements, size);
+        Console.WriteLine("Array elements: ");
+        for (int i = 0; i < elements.Length; i++)
+        {
+            Console.WriteLine($"{i}: " + elements[i]);
+        }
+
+    }
+
+    private static void ArraySort()
+    {
+        Console.WriteLine("Enter array elements separated by spaces: ");
+        string[] elements = Console.ReadLine().Split(' ');
+
+        Array.Sort(elements);
+        string output = "";
+        foreach (string element in elements)
+        {
+            output += element + " ";
+        }
+        Console.WriteLine("Sorted elements: " + output);
+    }
+}
