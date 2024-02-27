@@ -1,0 +1,116 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Xml.Linq;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        while (true)
+        {
+            Console.WriteLine("Choose the function for Sorted List:");
+            Console.WriteLine("1. Add");
+            Console.WriteLine("2. IndexOfKey");
+            Console.WriteLine("3. IndexOfValue");
+            Console.WriteLine("0. Exit");
+            string choice = Console.ReadLine();
+            switch (choice)
+            {
+                case "1":
+                    SortedListAdd();
+                    break;
+                case "2":
+                    SortedListIndexOfKey();
+                    break;
+                case "3":
+                    SortedListIndexOfValue();
+                    break;
+                case "0":
+                    return;
+                default:
+                    Console.WriteLine("Invalid input. Try again...");
+                    break;
+            }
+        }
+    }
+    private static void SortedListAdd()
+    {
+        Console.WriteLine("Enter keys and array elements separated by spaces (key-element): ");
+        string[] elements = Console.ReadLine().Split(' ');
+
+        SortedList sortedList = new SortedList();
+
+        foreach (string elem in elements)
+        {
+            string[] keyAndValue = elem.Split("-");
+            sortedList.Add(keyAndValue[0], keyAndValue[1]);
+        }
+
+        Console.WriteLine("Enter key and element to add: ");
+        string[] keyAndElement = Console.ReadLine().Split("-");
+
+        sortedList.Add(keyAndElement[0], keyAndElement[1]);
+
+        Console.WriteLine("New sorted list: ");
+        for (int i = 0; i < sortedList.Count; i++)
+        {
+            Console.WriteLine($"{sortedList.GetKey(i)}: {sortedList.GetByIndex(i)}");
+        }
+
+    }
+    private static void SortedListIndexOfKey()
+    {
+        Console.WriteLine("Enter keys and array elements separated by spaces (key-element): ");
+        string[] elements = Console.ReadLine().Split(' ');
+
+        SortedList sortedList = new SortedList();
+
+        foreach (string elem in elements)
+        {
+            string[] keyAndValue = elem.Split("-");
+            sortedList.Add(keyAndValue[0], keyAndValue[1]);
+        }
+        Console.WriteLine("Enter key: ");
+        string key = Console.ReadLine();
+
+        int index = sortedList.IndexOfKey(key);
+
+
+        if (index < 0)
+        {
+            Console.WriteLine("Element not found");
+        }
+        else
+        {
+            Console.WriteLine($"Element index: {index}");
+        }
+    }
+
+    private static void SortedListIndexOfValue()
+    {
+        Console.WriteLine("Enter keys and array elements separated by spaces (key-element): ");
+        string[] elements = Console.ReadLine().Split(' ');
+
+        SortedList sortedList = new SortedList();
+
+        foreach (string elem in elements)
+        {
+            string[] keyAndValue = elem.Split("-");
+            sortedList.Add(keyAndValue[0], keyAndValue[1]);
+        }
+        Console.WriteLine("Enter value: ");
+        string value = Console.ReadLine();
+
+        int index = sortedList.IndexOfValue(value);
+
+        if (index < 0)
+        {
+            Console.WriteLine("Element not found");
+        }
+        else
+        {
+            Console.WriteLine($"Element index: {index}");
+        }
+    }
+}
