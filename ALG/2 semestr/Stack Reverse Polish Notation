@@ -1,0 +1,84 @@
+class MainClass
+{
+    static bool IsOperator(char c)
+    {
+        return c == '+' || c == '-' || c == '*' || c == '/';
+    }
+
+    static double CalculateReversePolishNotation(string rpn)
+    {
+        Stack<double> stack = new Stack<double>();
+
+        string[] tokens = rpn.Split(' ');
+        foreach (string token in tokens)
+        {
+            Console.WriteLine(token);
+        }
+        
+
+        foreach (string token in tokens)
+        {
+            if (double.TryParse(token, out double number))
+            {
+                stack.Push(number);
+            }
+            else if (IsOperator(token[0]))
+            {
+                if (stack.Count < 2)
+                {
+                    throw new InvalidOperationException("Not enough operands for operation.");
+                }
+
+                double operand2 = stack.Pop();
+                double operand1 = stack.Pop();
+
+                switch (token[0])
+                {
+                    case '+':
+                        stack.Push(operand1 + operand2);
+                        break;
+                    case '-':
+                        stack.Push(operand1 - operand2);
+                        break;
+                    case '*':
+                        stack.Push(operand1 * operand2);
+                        break;
+                    case '/':
+                        if (operand2 == 0)
+                        {
+                            throw new DivideByZeroException("Division by zero.");
+                        }
+                        stack.Push(operand1 / operand2);
+                        break;
+                }
+            }
+            else
+            {
+                throw new InvalidOperationException("Invalid input.");
+            }
+        }
+
+
+        if (stack.Count != 1)
+        {
+            throw new InvalidOperationException("Invalid expression.");
+        }
+
+        return stack.Pop();
+    }
+
+    public static void Main(string[] args)
+    {
+        string expression = "5 7 + 10 *";
+
+        try
+        {
+            double result = CalculateReversePolishNotation(expression);
+            Console.WriteLine("Result: " + result);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error: " + ex.Message);
+        }
+    }
+}
