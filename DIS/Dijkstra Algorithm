@@ -24,33 +24,46 @@ weight_matrix = [
     [0, 0, 0, 0, 0, 0, 0, 5, 1, 0, 3, 0]
 ]
 
-n = len(weight_matrix)
-print("Enter start vertex (from 1 to 12):")
-start = int(input()) - 1
-print("Enter end vertex (from 1 to 12):")
-end = int(input()) - 1
 
-visited = [False] * n
-distances = [float('inf')] * n
-distances[start] = 0
+def dijkstra(matrix, start, end):
+    n = len(matrix)
+    distances = [float('inf')] * n
+    distances[start] = 0
+    visited = [False] * n
+    path = [-1] * n
+
+    for _ in range(n):
+        min_distance = float('inf')
+        min_index = -1
+        for i in range(n):
+            if not visited[i] and distances[i] < min_distance:
+                min_distance = distances[i]
+                min_index = i
+
+        if min_index == -1:
+            break
+
+        visited[min_index] = True
+
+        for i in range(n):
+            if not visited[i] and matrix[min_index][i] > 0:
+                new_distance = distances[min_index] + matrix[min_index][i]
+                if new_distance < distances[i]:
+                    distances[i] = new_distance
+                    path[i] = min_index
+
+    shortest_path = []
+    current = end
+    while current != -1:
+        shortest_path.insert(0, current + 1)
+        current = path[current]
+
+    return distances[end], shortest_path
 
 
-def go_from():
-    index = 0
-    min_distance = float('inf')
-    for i in range(n):
-        if distances[i] < min_distance and (not visited[i]):
-            min_distance = distances[i]
-            index = i
-    return index
+start_vertex = int(input("Start vertex: ")) - 1
+end_vertex = int(input("End vertex: ")) - 1
 
-
-while False in visited:
-    u = go_from()
-    for v in range(n):
-        if weight_matrix[u][v] != 0 and (not visited[v]):
-            distances[v] = min(distances[v], distances[u] + weight_matrix[u][v])
-    visited[u] = True
-
-print("Shortest path from vertex", start + 1, "to vertex", end + 1, "is", distances[end])
-print("distances from vertex", start + 1, ":", distances)
+distance, shortest_path = dijkstra(weight_matrix, start_vertex, end_vertex)
+print("Shortest distance:", distance)
+print("Shortest path:", shortest_path)
