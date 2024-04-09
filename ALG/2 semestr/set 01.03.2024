@@ -1,0 +1,47 @@
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        //Задача 1
+        HashSet<string> uniqueNumbers = new HashSet<string>();
+        int n = Convert.ToInt32(Console.ReadLine());
+        for (int i = 0; i < n; i++)
+        {
+            string[] line = Console.ReadLine().Split(' ');
+            uniqueNumbers.Add(line[0]);
+        }
+        Console.WriteLine(uniqueNumbers.Count);
+        Console.ReadLine();
+        // Задача 2
+        HashSet<int> set1 = new HashSet<int>() { 1, 2, 3 };
+        HashSet<int> set2 = new HashSet<int>() { 2, 3, 4 };
+        HashSet<int> set3 = new HashSet<int>() { 3, 4, 5 };
+
+        HashSet<int> intersection = new HashSet<int>(set1);
+        intersection.IntersectWith(set2);
+        intersection.IntersectWith(set3);
+
+        HashSet<int> union = new HashSet<int>(set1);
+        union.UnionWith(set2);
+        union.UnionWith(set3);
+
+        HashSet<int> complement1 = new HashSet<int>(union);
+        complement1.ExceptWith(set1);
+
+        HashSet<int> complement2 = new HashSet<int>(union);
+        complement2.ExceptWith(set2);
+
+        HashSet<int> complement3 = new HashSet<int>(union);
+        complement3.ExceptWith(set3);
+
+        Console.WriteLine("Task 2: Intersection: " + string.Join(", ", intersection));
+        Console.WriteLine("Task 2: Union: " + string.Join(", ", union));
+        Console.WriteLine("Task 2: Complement 1: " + string.Join(", ", complement1));
+        Console.WriteLine("Task 2: Complement 2: " + string.Join(", ", complement2));
+        Console.WriteLine("Task 2: Complement 3: " + string.Join(", ", complement3));
+        Console.ReadLine();
+    }
+}
