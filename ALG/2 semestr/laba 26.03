@@ -1,0 +1,113 @@
+using System;
+
+class Calculator
+{
+    public int a_int, b_int;
+    public double a_double, b_double;
+
+    public void SumIntegers()
+    {
+        int result = a_int + b_int;
+        Console.WriteLine("Sum: " + result);
+    }
+
+    public void SubtractIntegers()
+    {
+        int result = a_int - b_int;
+        Console.WriteLine("Difference: " + result);
+    }
+
+    public void MultiplyIntegers()
+    {
+        int result = a_int * b_int;
+        Console.WriteLine("multiplication: " + result);
+    }
+
+    public void DivideIntegers()
+    {
+        if (b_int != 0)
+        {
+            double result = (double)a_int / b_int;
+            Console.WriteLine("Division: " + result);
+        }
+        else
+        {
+            Console.WriteLine("Cannot divide by 0");
+        }
+    }
+
+    public void SumDoubles()
+    {
+        double result = a_double + b_double;
+        Console.WriteLine("Sum: " + result);
+    }
+
+    public void SubtractDoubles()
+    {
+        double result = a_double - b_double;
+        Console.WriteLine("Difference: " + result);
+    }
+
+    public void MultiplyDoubles()
+    {
+        double result = a_double * b_double;
+        Console.WriteLine("multiplication: " + result);
+    }
+
+    public void DivideDoubles()
+    {
+        if (b_double != 0)
+        {
+            double result = a_double / b_double;
+            Console.WriteLine("Division: " + result);
+        }
+        else
+        {
+            Console.WriteLine("Cannot divide by 0");
+        }
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Calculator calc = new Calculator();
+        int choice;
+
+        Console.WriteLine("Select number type:");
+        Console.WriteLine("1) Int");
+        Console.WriteLine("2) Double");
+        Console.Write("Your choice: ");
+        choice = int.Parse(Console.ReadLine());
+
+        if (choice == 1)
+        {
+            Console.Write("Enter first int: ");
+            calc.a_int = int.Parse(Console.ReadLine());
+            Console.Write("Enter second int: ");
+            calc.b_int = int.Parse(Console.ReadLine());
+
+            calc.SumIntegers();
+            calc.SubtractIntegers();
+            calc.MultiplyIntegers();
+            calc.DivideIntegers();
+        }
+        else if (choice == 2)
+        {
+            Console.Write("Enter first double: ");
+            calc.a_double = double.Parse(Console.ReadLine());
+            Console.Write("Enter second double: ");
+            calc.b_double = double.Parse(Console.ReadLine());
+
+            calc.SumDoubles();
+            calc.SubtractDoubles();
+            calc.MultiplyDoubles();
+            calc.DivideDoubles();
+        }
+        else
+        {
+            Console.WriteLine("Incorrect choice");
+        }
+    }
+}
