@@ -1,0 +1,76 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        Queue<string> dataQueue = new Queue<string>();
+        dataQueue.Enqueue("1234567890 05-04-2024 60");
+        dataQueue.Enqueue("9876543210 01-04-2024 30");
+        dataQueue.Enqueue("1234567890 09-04-2024 45");
+        dataQueue.Enqueue("9876543210 09-04-2024 10");
+
+        Dictionary<string, int> numberDictionary = new Dictionary<string, int>();
+        Hashtable numberHashtable = new Hashtable();
+
+        Dictionary<string, int> dateDictionary = new Dictionary<string, int>();
+        Hashtable dateHashtable = new Hashtable();
+
+        while (dataQueue.Count > 0)
+        {
+            string[] data = dataQueue.Dequeue().Split(' ');
+            string phoneNumber = data[0];
+            string date = data[1];
+            int minutes = int.Parse(data[2]);
+
+            //1
+            if (numberDictionary.ContainsKey(phoneNumber))
+                numberDictionary[phoneNumber] += minutes;
+            else
+                numberDictionary[phoneNumber] = minutes;
+
+            if (numberHashtable.ContainsKey(phoneNumber))
+                numberHashtable[phoneNumber] = Convert.ToInt32(numberHashtable[phoneNumber]) + minutes;
+            else
+                numberHashtable[phoneNumber] = minutes;
+
+            //2
+            if (dateDictionary.ContainsKey(date))
+                dateDictionary[date] += minutes;
+            else
+                dateDictionary[date] = minutes;
+
+            if (dateHashtable.ContainsKey(date))
+                dateHashtable[date] = Convert.ToInt32(dateHashtable[date]) + minutes;
+            else
+                dateHashtable[date] = minutes;
+        }
+
+        Console.WriteLine("Dictionary data by phone number:");
+        foreach (var kvp in numberDictionary)
+        {
+            Console.WriteLine($"Phone number: {kvp.Key}, Total minutes: {kvp.Value}");
+        }
+
+        Console.WriteLine("\nHashTable data by phone number:");
+        foreach (var key in numberHashtable.Keys)
+        {
+            Console.WriteLine($"Phone number: {key}, Total minutes: {numberHashtable[key]}");
+        }
+
+        Console.WriteLine("\nDictionary data by date:");
+        foreach (var kvp in dateDictionary)
+        {
+            Console.WriteLine($"Date: {kvp.Key}, Total minutes: {kvp.Value}");
+        }
+
+        Console.WriteLine("\nHashTable data by date:");
+        foreach (var key in dateHashtable.Keys)
+        {
+            Console.WriteLine($"Date: {key}, Total minutes: {dateHashtable[key]}");
+        }
+
+    }
+}
