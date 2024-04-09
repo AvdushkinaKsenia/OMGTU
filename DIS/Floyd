@@ -1,0 +1,54 @@
+def floyd_algorithm(matrix, start, end):
+    n = len(matrix)
+    distance = matrix.copy()
+    next_vertex = [[i for i in range(n)] for _ in range(n)]
+
+    for k in range(n):
+        for i in range(n):
+            for j in range(n):
+                if distance[i][j] > distance[i][k] + distance[k][j]:
+                    distance[i][j] = distance[i][k] + distance[k][j]
+                    next_vertex[i][j] = next_vertex[i][k]
+
+    path = [start]
+    while start != end:
+        start = next_vertex[start][end]
+        path.append(start)
+
+    s = " -> ".join([str(vertex + 1) for vertex in path])
+
+    return distance[path[0]][path[-1]], s
+
+
+weight_matrix = [
+    [0, 7, float('inf'), float('inf'), 9, 2, float('inf'), float('inf'), float('inf'), float('inf'), float('inf'), float('inf')],
+
+    [7, 0, 5, 4, 8, 2, float('inf'), float('inf'), float('inf'), float('inf'), float('inf'), float('inf')],
+
+    [float('inf'), 5, 0, 2, 9, float('inf'), float('inf'), float('inf'), float('inf'), float('inf'), float('inf'), float('inf')],
+
+    [float('inf'), 4, 2, 0, 3, float('inf'), 8, 3, float('inf'), float('inf'), float('inf'), float('inf')],
+
+    [9, 8, 9, 3, 0, 3, 5, 1, 7, float('inf'), float('inf'), float('inf')],
+
+    [2, 2, float('inf'), float('inf'), 3, 0, float('inf'), 6, 1, float('inf'), float('inf'), float('inf')],
+
+    [float('inf'), float('inf'), float('inf'), 8, 5, float('inf'), 0, 6, float('inf'), 4, 4, float('inf')],
+
+    [float('inf'), float('inf'), float('inf'), 3, 1, 6, 6, 0, 2, 7, 8, 5],
+
+    [float('inf'), float('inf'), float('inf'), float('inf'), 7, 1, float('inf'), 2, 0, float('inf'), 6, 1],
+
+    [float('inf'), float('inf'), float('inf'), float('inf'), float('inf'), float('inf'), 4, 7, float('inf'), 0, 10, float('inf')],
+
+    [float('inf'), float('inf'), float('inf'), float('inf'), float('inf'), float('inf'), 4, 8, 6, 10, float('inf'), 3],
+
+    [float('inf'), float('inf'), float('inf'), float('inf'), float('inf'), float('inf'), float('inf'), 5, 1, float('inf'), 3, 0]
+]
+
+start_vertex = int(input("Start vertex: ")) - 1
+end_vertex = int(input("End vertex: ")) - 1
+
+distance, shortest_path = floyd_algorithm(weight_matrix, start_vertex, end_vertex)
+print("Shortest distance:", distance)
+print("Shortest path:", shortest_path)
