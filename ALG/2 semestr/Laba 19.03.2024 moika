@@ -1,0 +1,64 @@
+using System;
+using System.Collections.Generic;
+
+interface Moika
+{
+    void WashCar(Car car);
+}
+
+class Car
+{
+    public string carName { get; }
+
+    public Car(string name)
+    {
+        carName = name;
+    }
+}
+
+class Garage
+{
+    private List<Car> _cars;
+
+    public Garage(List<Car> cars)
+    {
+        _cars = cars;
+    }
+
+    public void WashingCars(Moika carWasher)
+    {
+        foreach (Car car in _cars)
+        {
+            carWasher.WashCar(car);
+        }
+    }
+}
+
+class CarWasher : Moika
+{
+    public void WashCar(Car car)
+    {
+        Console.WriteLine($"Car {car.carName} has been washed.");
+    }
+}
+
+class Program
+{
+    public static void Main()
+    {
+        var cars = new List<Car>
+        {
+            new Car("VAZ 2114"),
+            new Car("Gelik"),
+            new Car("VAZ 2109"),
+            new Car("BMW")
+        };
+
+        var garage = new Garage(cars);
+        var carWasher = new CarWasher();
+
+        garage.WashingCars(carWasher);
+
+        Console.ReadKey();
+    }
+}
