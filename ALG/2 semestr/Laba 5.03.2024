@@ -1,0 +1,68 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace CallLogAnalyzer
+{
+    class Program
+    {
+        class CallRecord
+        {
+            public string CallerNumber { get; }
+            public string ReceiverNumber { get; }
+            public DateTime CallDate { get; }
+            public int CallDuration { get; }
+
+            public CallRecord(string callerNumber, string receiverNumber, DateTime callDate, int callDuration)
+            {
+                CallerNumber = callerNumber;
+                ReceiverNumber = receiverNumber;
+                CallDate = callDate;
+                CallDuration = callDuration;
+            }
+        }
+
+        static void Main(string[] args)
+        {
+            var callLog = new List<CallRecord>
+            {
+                new CallRecord("1234567890", "9876543210", new DateTime(2024, 4, 10), 15),
+                new CallRecord("1234567890", "5555555555", new DateTime(2024, 4, 10), 20),
+                new CallRecord("1234567890", "9876543210", new DateTime(2024, 4, 11), 10),
+
+            };
+
+
+            Console.WriteLine("Enter the subscriber's number:");
+            string selectedNumber = Console.ReadLine();
+
+
+            var mostFrequentCalledNumbers = callLog
+                .Where(record => record.CallerNumber == selectedNumber)
+                .GroupBy(record => record.ReceiverNumber)
+                .OrderByDescending(group => group.Count())
+                .ToList();
+
+            if (mostFrequentCalledNumbers.Any())
+            {
+                var mostFrequentNumber = mostFrequentCalledNumbers.First().Key;
+                Console.WriteLine($"Task 1 (true)\nThe most frequent subscriber {selectedNumber} called the number: {mostFrequentNumber}");
+            }
+            else
+            {
+                Console.WriteLine($"Task 1 (false)\nRecords for the subscriber {selectedNumber} not found.");
+            }
+
+
+
+            var totalMinutesPerNumber = callLog
+                .GroupBy(record => record.CallerNumber)
+                .ToDictionary(group => group.Key, group => group.Sum(record => record.CallDuration));
+
+            foreach (var kvp in totalMinutesPerNumber.OrderByDescending(kvp => kvp.Value))
+            {
+                Console.WriteLine($"Task 2\nNumber: {kvp.Key}, Total talk time: {kvp.Value} minutes");
+            }
+        }
+    }
+}
