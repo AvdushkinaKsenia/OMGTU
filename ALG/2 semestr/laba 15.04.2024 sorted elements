@@ -1,0 +1,61 @@
+using System;
+using System.IO;
+
+class Program
+{
+    static void MergeSortedFiles(string inputFile1, string inputFile2, string outputFile)
+    {
+        using (var reader1 = new StreamReader(inputFile1))
+        using (var reader2 = new StreamReader(inputFile2))
+        using (var writer = new StreamWriter(outputFile))
+
+        {
+            string line1 = reader1.ReadLine();
+            string line2 = reader2.ReadLine();
+
+            while (line1 != null && line2 != null)
+            {
+                if (int.Parse(line1) < int.Parse(line2))
+                {
+                    writer.WriteLine(line1);
+                    line1 = reader1.ReadLine();
+                }
+                else
+                {
+                    writer.WriteLine(line2);
+                    line2 = reader2.ReadLine();
+                }
+            }
+
+            while (line1 != null)
+            {
+                writer.WriteLine(line1);
+                line1 = reader1.ReadLine();
+            }
+
+            while (line2 != null)
+            {
+                writer.WriteLine(line2);
+                line2 = reader2.ReadLine();
+            }
+        }
+        Console.WriteLine("Files merged successfully.");
+    }
+
+    static void Main(string[] args)
+    {
+        string inputFile1 = "input1.txt";
+        string inputFile2 = "input2.txt";
+        string outputFile = "output.txt";
+
+        MergeSortedFiles(inputFile1, inputFile2, outputFile);
+
+        string[] output = File.ReadAllLines(outputFile);
+        
+
+        foreach (string line in output) 
+        { 
+            Console.WriteLine(line);
+        }
+    }
+}
