@@ -1,0 +1,39 @@
+from collections import deque
+
+
+def wave_algorithm(matrix, start, end):
+    directions = [(0, 1), (1, 0), (0, -1), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1)]
+    rows = len(matrix)
+    cols = len(matrix[0])
+    visited = [[False for _ in range(cols)] for _ in range(rows)]
+    queue = deque([(start[0], start[1], 0)])
+
+    while queue:
+        row, col, dist = queue.popleft()
+        if (row, col) == end:
+            return dist
+
+        if not visited[row][col]:
+            visited[row][col] = True
+            for d in directions:
+                new_row, new_col = row + d[0], col + d[1]
+                if 0 <= new_row < rows and 0 <= new_col < cols and not visited[new_row][new_col] and matrix[new_row][
+                    new_col] != 1:
+                    queue.append((new_row, new_col, dist + 1))
+
+    return -1
+
+
+matrix = [
+    [0, 0, 0, 0, 0],
+    [0, 1, 0, 1, 0],
+    [0, 0, 0, 1, 0],
+    [0, 1, 1, 1, 0],
+    [0, 0, 0, 0, 0]
+]
+
+start = (0, 0)
+end = (4, 4)
+
+distance = wave_algorithm(matrix, start, end)
+print("Min distance:",distance)
