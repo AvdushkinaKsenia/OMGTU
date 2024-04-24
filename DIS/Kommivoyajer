@@ -1,0 +1,35 @@
+from itertools import permutations
+
+def kommivoyajer(graph, start_vertex):
+    num_vertices = len(graph)
+    all_vertices = set(range(num_vertices))
+    min_cost = float('inf')
+    best_path = None
+
+    for perm in permutations(all_vertices - {start_vertex}):
+        current_path = [start_vertex] + list(perm) + [start_vertex]
+        total_cost = 0
+
+        for i in range(num_vertices):
+            total_cost += graph[current_path[i]][current_path[i + 1]]
+
+        if total_cost < min_cost:
+            min_cost = total_cost
+            best_path = current_path
+
+        s = " -> ".join([str(vertex + 1) for vertex in best_path])
+
+    return s, min_cost
+
+graph = [
+    [0, 41, 17, 23, 32],
+    [13, 0, 45, 12, 37],
+    [80, 45, 0, 50, 64],
+    [23, 12, 50, 0, 67],
+    [32, 37, 64, 67, 0]
+]
+start_vertex = 0
+
+best_path, min_cost = kommivoyajer(graph, start_vertex)
+print("Best path:", best_path)
+print("Min cost:", min_cost)
