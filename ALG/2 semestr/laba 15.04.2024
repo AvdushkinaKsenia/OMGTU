@@ -1,0 +1,52 @@
+using System;
+using System.IO;
+
+class Program
+{
+    static void Main()
+    {
+        string fileName = "input.txt";
+        string[] lines = File.ReadAllLines(fileName);
+
+        foreach (string line in lines)
+        {
+            Console.WriteLine(line);
+        }
+
+        string result = FindShortestSubstringWithA(lines);
+
+        Console.WriteLine("String: " + result);
+    }
+
+    static string FindShortestSubstringWithA(string[] lines)
+    {
+        string result = "";
+        int minLength = int.MaxValue;
+        int currentLength = 0;
+
+        foreach (string line in lines)
+        {
+            int tempMinLength = int.MaxValue;
+            foreach (char c in line) 
+            {
+                if (c == 'a')
+                {
+                    currentLength++;
+                }
+                else
+                {
+                    tempMinLength = Math.Min(tempMinLength, currentLength);
+                    currentLength = 0;
+                }
+            }
+           
+            if (tempMinLength < minLength)
+            {
+                minLength = tempMinLength;
+                result = line;
+            }  
+
+        }
+        return result;
+    }
+}
