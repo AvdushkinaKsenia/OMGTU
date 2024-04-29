@@ -1,0 +1,30 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class Program
+{
+    static void Main()
+    {
+        List<string> strings = new List<string>() { "abc", "defg", "hi", "jklmno", "pqrst", "uv", "w", "xyz"};
+
+        var query = strings.Where(s => s.Length % 2 == 0).ToList();
+        Console.WriteLine("List of elements with even string length:");
+        foreach (var item in query)
+        {
+            Console.WriteLine(item);
+        }
+
+        for (int i = 1; i < strings.Count; i += 2)
+        {
+            strings.RemoveAt(i);
+        }
+
+        var updatedQuery = strings.Where(s => s.Length % 2 == 0).ToList();
+        Console.WriteLine("\nList of elements with even string length after removing every second element:");
+        foreach (var item in updatedQuery)
+        {
+            Console.WriteLine(item);
+        }
+    }
+}
