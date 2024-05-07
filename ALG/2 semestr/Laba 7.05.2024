@@ -1,0 +1,50 @@
+using System;
+using System.Linq;
+
+class BankAccount
+{
+    public int AccountNumber { get; set; }
+    public string FullName { get; set; }
+    public double Income { get; set; }
+    public double Expenses { get; set; }
+    public double Tax { get; set; }
+
+    public double Balance
+    {
+        get { return Income - Expenses - Tax; }
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        BankAccount[] accounts = new BankAccount[]
+        {
+            new BankAccount { AccountNumber = 1, FullName = "Авдюшкина Ксения Сергеевна", Income = 5000, Expenses = 2500, Tax = 5000 * 0.05f },
+            new BankAccount { AccountNumber = 2, FullName = "Истомина Яна Юрьевна", Income = 7000, Expenses = 3000, Tax = 7000 * 0.05f },
+            new BankAccount { AccountNumber = 3, FullName = "Шумкова Римма Сергеевна", Income = 4000, Expenses = 2000, Tax = 4000 * 0.05f },
+            new BankAccount { AccountNumber = 4, FullName = "Николай Денов Букетович", Income = 3000, Expenses = 4000, Tax = 3000 * 0.05f },
+            new BankAccount { AccountNumber = 5, FullName = "Владимир Обидов Тиранович", Income = 10000, Expenses = 1000, Tax = 10000 * 0.05f},
+            new BankAccount { AccountNumber = 6, FullName = "Алексей Наглов Клопович", Income = 10000000, Expenses = 100000, Tax = 10000000 * 0.05f},
+            new BankAccount { AccountNumber = 7, FullName = "Александр Богомолов Ооохович", Income = 100, Expenses = 7, Tax = 100 * 0.05f},
+            new BankAccount { AccountNumber = 7, FullName = "Ден Дверев Долгович", Income = 10, Expenses = 100000, Tax = 10 * 0.05f}
+        };
+
+        var accountsWithNegativeBalance = accounts.Where(acc => acc.Balance < 0);
+        Console.WriteLine("Счета с отрицательным балансом:");
+        foreach (var acc in accountsWithNegativeBalance)
+        {
+            Console.WriteLine($"Счет №{acc.AccountNumber} у {acc.FullName}");
+        }
+
+        var accountWithMaxIncome = accounts.OrderByDescending(acc => acc.Income).First();
+        Console.WriteLine($"Счет с наибольшим доходом принадлежит {accountWithMaxIncome.FullName}");
+
+        var countPeopleWithPositiveBalance = accounts.Count(acc => acc.Balance > 0);
+        Console.WriteLine($"Количество людей с положительным балансом: {countPeopleWithPositiveBalance}");
+
+        double totalTaxes = accounts.Sum(acc => acc.Tax);
+        Console.WriteLine($"Общая сумма налогов: {totalTaxes}");
+    }
+}
