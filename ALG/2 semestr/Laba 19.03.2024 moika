@@ -1,64 +1,83 @@
 using System;
 using System.Collections.Generic;
 
-interface Moika
+interface IMoika
 {
-    void WashCar(Car car);
+    void ShowWashed(Car car);
 }
 
-class Car
-{
-    public string carName { get; }
 
-    public Car(string name)
+public class Car
+{
+    public bool Washed;
+    public string Name;
+
+    public Car(bool washed, string name)
     {
-        carName = name;
+        Washed = washed;
+        Name = name;
     }
+    public void Wash() => Washed = true;
 }
 
 class Garage
 {
-    private List<Car> _cars;
+    private List<Car> Cars;
 
     public Garage(List<Car> cars)
     {
-        _cars = cars;
+        Cars = cars;
     }
 
-    public void WashingCars(Moika carWasher)
+    public void WashingCars(IMoika carWasher)
     {
-        foreach (Car car in _cars)
+        foreach (Car car in Cars)
         {
-            carWasher.WashCar(car);
+            carWasher.ShowWashed(car);
         }
     }
 }
 
-class CarWasher : Moika
+class CarWasher : IMoika
 {
-    public void WashCar(Car car)
+    public void ShowWashed(Car car)
     {
-        Console.WriteLine($"Car {car.carName} has been washed.");
+        Console.WriteLine($"{car.Name} washed is {car.Washed}!");
     }
 }
 
+public class Moika
+{
+    public WashCar washCar;
+}
+
+public delegate void WashCar();
+
 class Program
 {
-    public static void Main()
+
+    static void Main()
     {
-        var cars = new List<Car>
+        List<Car> cars = new List<Car>
         {
-            new Car("VAZ 2114"),
-            new Car("Gelik"),
-            new Car("VAZ 2109"),
-            new Car("BMW")
+            new Car(false, "VAZ 2114"),
+            new Car(false, "Gelik"),
+            new Car(false, "VAZ 2109"),
+            new Car(false, "BMW")
         };
 
         var garage = new Garage(cars);
         var carWasher = new CarWasher();
 
+        Moika moika = new Moika();
+
+        foreach (Car car in cars)
+        {
+            moika.washCar = car.Wash;
+            moika.washCar();
+        }
+
         garage.WashingCars(carWasher);
 
-        Console.ReadKey();
     }
 }
