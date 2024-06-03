@@ -1,0 +1,57 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class Worker
+{
+    public int Number { get; set; }
+    public string Name { get; set; }
+    public string Education { get; set; }
+    public string Specialty { get; set; }
+    public double Salary { get; set; }
+    public int NumberOfGoodsProduced { get; set; }
+    public double PricePerUnit { get; set; }
+
+
+    public Worker(int number, string name, string education, string specialty, double salary, int numberOfGoods, double price)
+    {
+        Number = number;
+        Name = name;
+        Education = education;
+        Specialty = specialty;
+        Salary = salary;
+        NumberOfGoodsProduced = numberOfGoods;
+        PricePerUnit = price;
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        List<Worker> workers = new List<Worker>()
+        {
+            new Worker(1, "Name1", "Education1", "Specialty1", 70000, 1000, 100),
+            new Worker(2, "Name2", "Education2", "Specialty2", 50000, 100, 500),
+            new Worker(3, "Name3", "Education3", "Specialty1", 80000, 2000, 10),
+            new Worker(4, "Name4", "Education2", "Specialty3", 60000, 1000, 50),
+            new Worker(5, "Name5", "Education3", "Specialty1", 50000, 200, 1000),
+        };
+
+        var salaryLessThanGoodsSum = workers.Where(w => w.Salary < (w.PricePerUnit * w.NumberOfGoodsProduced)).Select(w => w.Name).ToList();
+        var numberOfGoodsByWorkers = workers.Select(w => new { worker = w.Name, numberOfGoods = w.NumberOfGoodsProduced}).ToList();
+        var sumPrice = workers.Sum(w => w.PricePerUnit * w.NumberOfGoodsProduced);
+        var workersWithMoreThan50persSalary = workers.Where(w => (w.Salary / (w.PricePerUnit * w.NumberOfGoodsProduced)) >= 0.5f).Count();
+
+
+        Console.WriteLine("Salary less than goods sum:");
+        salaryLessThanGoodsSum.ForEach(i => Console.Write(i + " "));
+        Console.WriteLine("\n");
+        Console.WriteLine("Number of goods by workers:");
+        numberOfGoodsByWorkers.ForEach(i => Console.WriteLine(i ));
+        Console.WriteLine("\n");
+        Console.WriteLine($"sumPrice: {sumPrice}");
+        Console.WriteLine($"workers with more than 50 persents salary: {workersWithMoreThan50persSalary}");
+
+    }
+}
