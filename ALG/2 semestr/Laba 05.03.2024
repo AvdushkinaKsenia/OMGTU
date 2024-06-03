@@ -1,0 +1,67 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class CallInfo
+{
+    public string CallingNumber { get; set; }
+    public string CalledNumber { get; set; }
+    public DateTime CallDate { get; set; }
+    public int CallDuration { get; set; }
+
+    public CallInfo(string callingNumber, string calledNumber, DateTime callDate, int callDuration)
+    {
+        CallingNumber = callingNumber;
+        CalledNumber = calledNumber;
+        CallDate = callDate;
+        CallDuration = callDuration;
+    }
+}
+
+class PhoneCalls
+{
+
+    public static void Main(string[] args)
+    {
+        List<CallInfo> callRecords = new List<CallInfo>
+        {
+            new CallInfo ( "+1234567890", "+9876543210", new DateTime(2024, 5, 26), 5 ),
+            new CallInfo ( "+1234567890", "+1223334445", new DateTime(2024, 5, 26), 10 ),
+            new CallInfo ( "+1234567890", "+1111111111", new DateTime(2024, 5, 27), 20 ),
+            new CallInfo ( "+1234567890", "+9876543210", new DateTime(2024, 5, 27), 3 ),
+            new CallInfo ( "+1234567890", "+1223334445", new DateTime(2024, 5, 28), 30 ),
+            new CallInfo ( "+1234567890", "+9876543210", new DateTime(2024, 5, 28), 2 ),
+            new CallInfo ( "+1234567890", "+9876543210", new DateTime(2024, 5, 28), 15 ),
+        };
+
+        string callerNumber = "+1234567890";
+
+        var mostFrequentCalls = callRecords
+            .Where(record => record.CallingNumber == callerNumber)
+            .GroupBy(record => new { record.CallDate, record.CalledNumber })
+            .OrderByDescending(group => group.Count())
+            .Select(group => new
+            {
+                Date = group.Key.CallDate,
+                Number = group.Key.CalledNumber,
+                Count = group.Count()
+            })
+            .FirstOrDefault();
+
+        Console.WriteLine($"Caller {callerNumber} most often called number {mostFrequentCalls.Number} {mostFrequentCalls.Date.ToShortDateString()} ({mostFrequentCalls.Count} times)");
+
+        var longestCalls = callRecords
+            .Where(record => record.CallingNumber == callerNumber)
+            .GroupBy(record => new { record.CallDate, record.CalledNumber })
+            .Select(group => new
+            {
+                Date = group.Key.CallDate,
+                Number = group.Key.CalledNumber,
+                TotalDuration = group.Sum(record => record.CallDuration)
+            })
+            .OrderByDescending(group => group.TotalDuration).ToList();
+
+        Console.WriteLine("\nNumbers with the most call minutes:");
+        longestCalls.ForEach(call =>  Console.WriteLine(($"Date: {call.Date.ToShortDateString()}, Number: {call.Number}, Duration: {call.TotalDuration} minutes")));
+    }
+}
